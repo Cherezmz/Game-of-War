@@ -71,3 +71,7 @@ const deck = new Deck()
 
 console.log(deck)
 
+
+const deckArray = Object.values(deck)
+console.log(deckArray)
+
