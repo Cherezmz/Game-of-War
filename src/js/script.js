@@ -72,6 +72,58 @@ const deck = new Deck()
 console.log(deck)
 
 
-const deckArray = Object.values(deck)
-console.log(deckArray)
+
+//do not know how to shuffle the deck. Tried Fisher–Yates shuffle
+//and did smth wrong. 
+
+//function shuffleDeck() {
+//  var shaffleDeck = []
+//for (let i = 0; i < 52; i++) {
+//  var rndNo = Math.floor(Math.random() * i);
+//var card = this.Card[i];
+//this.Card[i] = this.Card.splice(rndNo, 1)[0];
+//shuffleDeck.push(deck)
+
+//  }
+//return shuffleDeck;
+//}
+
+
+
+//I wanted to split the deck using slice and it does not work either
+//let deckFirstPlayer = deck.slice(0, 26);
+//let deckSecondPlayer = deck.slice(26);
+//console.log(deckFirstPlayer)
+
+//now we should have 2 sets of cards 
+
+
+
+//if shafling cards and splitting into two parts do not work,
+//it is impossible to check if comparing of cards works.
+//Anyway, the logic for comparing cards may be the following
+
+
+//create two empty arrays where to put cards after each round
+let deckFirstPlayBegins = []
+let deckSecondPlayBegins = []
+
+//create logic how to compare the cards. 
+//may use do-while, where "while" is either deckFirstPlayBegins or deckSecondPlayBegins
+//is less than 52 (total number of cards)
+// in "do" we should use if-else statements and compare value of each card
+//inside if-else we should use loops to try all the deck
+// for tie/war situation need additional arrey to keep cards and then
+// move card to the deck of won player 
+
+do {
+
+
+}
+while (deckFirstPlayBegins < 53 || deckSecondPlayBegins < 53)
+
+
+
+
+
 
