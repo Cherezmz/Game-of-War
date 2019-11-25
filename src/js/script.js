@@ -47,9 +47,6 @@ class Deck {
             "King",
             "Ace"
         ]
-        //ranks are not usefull to difine what rank is higher. 
-        //It is worth changing "Jack", "Queen", "King", "Ace" into 
-        //numbers to simplify comparence 
 
         let suits = [
             "Heart",
@@ -73,9 +70,4 @@ class Deck {
 const deck = new Deck()
 
 console.log(deck)
-
-//need to split the cards into 2 decks
-
-let firstPlayerDeck = []
-let secondPlayerDeck = []
 
