@@ -80,45 +80,111 @@ class Deck {
 
 
 function moveOneCard2(d, index) {
-    console.log(index)
-    console.log(d)
+    //console.log(index)
+    //console.log(d)
     card = d.cards[index]
-    console.log(card)
+    //console.log(card)
     d.tempCards.push(card)
-    console.log(d)
-    console.log(d.tempCards)
+    //console.log(d)
+    //console.log(d.tempCards)
     d.cards.splice(index, 1)
     let l = d.cards.length
-    console.log(l)
+    //console.log(l)
+    //console.log(d.cards)
+}
+
+function dummyShuffle(d) {
+    //to be sure that tempCards is empty
+    d.tempCards.splice(0, d.tempCards.length)
+    len = d.cards.length
+    for (i = 0; i < 52; i++) {
+        moveOneCard2(d, 0)
+        //moveOneCard2(d, d.cards.length - 1)
+
+    }
+
+
+    console.log(d.cards.length)
+    for (i = 0; i < len; i++) {
+        d.cards.push(d.tempCards[i])
+
+    }
+    console.log(d.cards.length)
+    console.log(d.cards)
+
+    console.log(d.tempCards)
+
+    d.tempCards.splice(0, d.tempCards.length)
+    console.log("empty:", d.tempCards)
+
+    console.log("****************************")
+}
+
+function emptyDeck(d) {
+    d.cards.splice(0, d.cards.length)
+    d.tempCards.splice(0, d.tempCards.length)
+
+}
+
+function deal(d, d1, d2) {
+    len = d.cards.length
+    for (i = 0; i < len / 2; i++) {
+        card = d.cards.pop()
+        d1.cards.push(card)
+        card = d.cards.pop()
+        d2.cards.push(card)
+    }
+
+}
+
+function turn(d1, d2) {
+
 }
 
 
-
-
 deck = new Deck()
-moveOneCard2(deck, 0)
+//moveOneCard2(deck, 0)
+dummyShuffle(deck)
+
+
 
 console.log("***************************")
 
 
-deck.moveOneCard(8)
+deck1 = new Deck
+deck2 = new Deck
+console.log("deck1:", deck1)
+console.log("deck2:", deck2)
 
-console.log("deck:")
+emptyDeck(deck1)
+emptyDeck(deck2)
+console.log("deck1 after empty:", deck1)
+console.log("deck2 after empty:", deck2)
 
-console.log(deck)
-console.log("deck.cards:")
-console.log(deck.cards)
+deal(deck, deck1, deck2)
+console.log(deck, deck1, deck2)
 
-console.log(deck.cards[51])
-foo = deck.cards
-console.log(foo)
-foo.pop(1)
-console.log(deck)
+//deck.moveOneCard(8)
+
+//console.log("deck:")
+
+//console.log(deck)
+//console.log("deck.cards:")
+//console.log(deck.cards)
+
+//console.log(deck.cards[51])
+//foo = deck.cards
+//console.log(foo)
+//foo.pop(1)
+//console.log(deck)
 
 
 
 
 console.log("66666666")
+
+
+
 
 
 
@@ -140,10 +206,10 @@ console.log("66666666")
 
 
 //I wanted to split the deck using slice and it does not work either
-//deckFirstPlayer = deck.cards.splice(26, 52);
-//deckSecondPlayer = deck.cards.splice(0, 26);
-//console.log(deckFirstPlayer)
-//console.log(deckSecondPlayer)
+//deck1 = deck.cards.splice(26, 52);
+//deck2 = deck.cards.splice(0, 26);
+//console.log(deck1)
+//console.log(deck2)
 
 //now we should have 2 sets of cards 
 
