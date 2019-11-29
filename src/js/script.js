@@ -20,6 +20,9 @@
 //*
 //* Instantiate an instance of your Deck and start drawing random cards!
 // * /
+//myDeck.cards = []
+
+
 class Card {
     constructor(rank, suit, value) {
         this.rank = rank
@@ -31,7 +34,7 @@ class Card {
 class Deck {
     constructor() {
         this.cards = []
-
+        this.tempCards = []
         let ranks = [
             "2",
             "3",
@@ -64,12 +67,58 @@ class Deck {
                 this.cards.push(new Card(rank, suit, value))
             }
         }
+
+
     }
+
+    moveOneCard(index) {
+        console.log("moveOneCard(", index, ")")
+
+    }
+
 }
 
-const deck = new Deck()
+
+function moveOneCard2(d, index) {
+    console.log(index)
+    console.log(d)
+    card = d.cards[index]
+    console.log(card)
+    d.tempCards.push(card)
+    console.log(d)
+    console.log(d.tempCards)
+    d.cards.splice(index, 1)
+    let l = d.cards.length
+    console.log(l)
+}
+
+
+
+
+deck = new Deck()
+moveOneCard2(deck, 0)
+
+console.log("***************************")
+
+
+deck.moveOneCard(8)
+
+console.log("deck:")
 
 console.log(deck)
+console.log("deck.cards:")
+console.log(deck.cards)
+
+console.log(deck.cards[51])
+foo = deck.cards
+console.log(foo)
+foo.pop(1)
+console.log(deck)
+
+
+
+
+console.log("66666666")
 
 
 
@@ -91,9 +140,10 @@ console.log(deck)
 
 
 //I wanted to split the deck using slice and it does not work either
-//let deckFirstPlayer = deck.slice(0, 26);
-//let deckSecondPlayer = deck.slice(26);
+//deckFirstPlayer = deck.cards.splice(26, 52);
+//deckSecondPlayer = deck.cards.splice(0, 26);
 //console.log(deckFirstPlayer)
+//console.log(deckSecondPlayer)
 
 //now we should have 2 sets of cards 
 
@@ -105,8 +155,8 @@ console.log(deck)
 
 
 //create two empty arrays where to put cards after each round
-let deckFirstPlayBegins = []
-let deckSecondPlayBegins = []
+//let deckFirstPlayBegins = []
+//let deckSecondPlayBegins = []
 
 //create logic how to compare the cards. 
 //may use do-while, where "while" is either deckFirstPlayBegins or deckSecondPlayBegins
@@ -116,11 +166,11 @@ let deckSecondPlayBegins = []
 // for tie/war situation need additional arrey to keep cards and then
 // move card to the deck of won player 
 
-do {
+//do {
 
 
-}
-while (deckFirstPlayBegins < 53 || deckSecondPlayBegins < 53)
+//}
+//while (deckFirstPlayBegins = 53 || deckSecondPlayBegins = 53)
 
 
 
