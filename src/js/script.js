@@ -22,147 +22,164 @@
 // * /
 //myDeck.cards = []
 
-
 class Card {
-    constructor(rank, suit, value) {
-        this.rank = rank
-        this.suit = suit
-        this.value = value
-    }
+  constructor(rank, suit, value) {
+    this.rank = rank;
+    this.suit = suit;
+    this.value = value;
+  }
 }
 
 class Deck {
-    constructor() {
-        this.cards = []
-        this.tempCards = []
-        let ranks = [
-            "2",
-            "3",
-            "4",
-            "5",
-            "6",
-            "7",
-            "8",
-            "9",
-            "10",
-            "Jack",
-            "Queen",
-            "King",
-            "Ace"
-        ]
+  constructor() {
+    this.cards = [];
+    this.tempCards = [];
+    let ranks = [
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "Jack",
+      "Queen",
+      "King",
+      "Ace"
+    ];
 
-        let suits = [
-            "Heart",
-            "Club",
-            "Diamond",
-            "Spade"
-        ]
+    let suits = ["Heart", "Club", "Diamond", "Spade"];
 
-        for (let i = 0; i < ranks.length; i++) {
-            for (let j = 0; j < suits.length; j++) {
-                let rank = ranks[i]
-                let suit = suits[j]
-                let value = i
+    for (let i = 0; i < ranks.length; i++) {
+      for (let j = 0; j < suits.length; j++) {
+        let rank = ranks[i];
+        let suit = suits[j];
+        let value = i;
 
-                this.cards.push(new Card(rank, suit, value))
-            }
-        }
-
-
+        this.cards.push(new Card(rank, suit, value));
+      }
     }
+  }
 
-    moveOneCard(index) {
-        console.log("moveOneCard(", index, ")")
-
-    }
-
+  moveOneCard(index) {
+    console.log("moveOneCard(", index, ")");
+  }
 }
 
-
 function moveOneCard2(d, index) {
-    //console.log(index)
-    //console.log(d)
-    card = d.cards[index]
-    //console.log(card)
-    d.tempCards.push(card)
-    //console.log(d)
-    //console.log(d.tempCards)
-    d.cards.splice(index, 1)
-    let l = d.cards.length
-    //console.log(l)
-    //console.log(d.cards)
+  //console.log(index)
+  //console.log(d)
+  card = d.cards[index];
+  //console.log(card)
+  d.tempCards.push(card);
+  //console.log(d)
+  //console.log(d.tempCards)
+  d.cards.splice(index, 1);
+  let l = d.cards.length;
+  //console.log(l)
+  //console.log(d.cards)
 }
 
 function dummyShuffle(d) {
-    //to be sure that tempCards is empty
-    d.tempCards.splice(0, d.tempCards.length)
-    len = d.cards.length
-    for (i = 0; i < 52; i++) {
-        moveOneCard2(d, 0)
-        //moveOneCard2(d, d.cards.length - 1)
+  //to be sure that tempCards is empty
+  d.tempCards.splice(0, d.tempCards.length);
+  len = d.cards.length;
+  for (i = 0; i < 52; i++) {
+    moveOneCard2(d, 0);
+    //moveOneCard2(d, d.cards.length - 1)
+  }
 
-    }
+  console.log(d.cards.length);
+  for (i = 0; i < len; i++) {
+    d.cards.push(d.tempCards[i]);
+  }
+  console.log(d.cards.length);
+  console.log(d.cards);
 
+  console.log(d.tempCards);
 
-    console.log(d.cards.length)
-    for (i = 0; i < len; i++) {
-        d.cards.push(d.tempCards[i])
+  d.tempCards.splice(0, d.tempCards.length);
+  console.log("empty:", d.tempCards);
 
-    }
-    console.log(d.cards.length)
-    console.log(d.cards)
-
-    console.log(d.tempCards)
-
-    d.tempCards.splice(0, d.tempCards.length)
-    console.log("empty:", d.tempCards)
-
-    console.log("****************************")
+  console.log("****************************");
 }
 
 function emptyDeck(d) {
-    d.cards.splice(0, d.cards.length)
-    d.tempCards.splice(0, d.tempCards.length)
-
+  d.cards.splice(0, d.cards.length);
+  d.tempCards.splice(0, d.tempCards.length);
 }
 
 function deal(d, d1, d2) {
-    len = d.cards.length
-    for (i = 0; i < len / 2; i++) {
-        card = d.cards.pop()
-        d1.cards.push(card)
-        card = d.cards.pop()
-        d2.cards.push(card)
-    }
-
+  len = d.cards.length;
+  for (i = 0; i < len / 2; i++) {
+    card = d.cards.pop();
+    d1.cards.push(card);
+    card = d.cards.pop();
+    d2.cards.push(card);
+  }
 }
 
 function turn(d1, d2) {
-
+  card1 = d1.cards.pop();
+  card2 = d2.cards.pop();
+  d1.cards.push(card1);
+  d1.cards.push(card2);
 }
 
+function isGameOver(d1, d2) {
+  if (d1.cards.length == 0 || d2.cards.length == 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
 
-deck = new Deck()
+function whoIsWinner(d1, d2) {
+  if (d1.cards.length == 0) {
+    return 2;
+  }
+  if (d2.cards.length == 0) {
+    return 1;
+  }
+  return 0;
+}
+
+deck = new Deck();
 //moveOneCard2(deck, 0)
-dummyShuffle(deck)
+dummyShuffle(deck);
 
+console.log("***************************");
 
+deck1 = new Deck();
+deck2 = new Deck();
+console.log("deck1:", deck1);
+console.log("deck2:", deck2);
 
-console.log("***************************")
+emptyDeck(deck1);
+emptyDeck(deck2);
+console.log("deck1 after empty:", deck1);
+console.log("deck2 after empty:", deck2);
 
+deal(deck, deck1, deck2);
+console.log(deck, deck1, deck2);
 
-deck1 = new Deck
-deck2 = new Deck
-console.log("deck1:", deck1)
-console.log("deck2:", deck2)
+//turn(deck1, deck2)
+//console.log(deck1)
+//console.log(deck2)
 
-emptyDeck(deck1)
-emptyDeck(deck2)
-console.log("deck1 after empty:", deck1)
-console.log("deck2 after empty:", deck2)
+//emptyDeck(deck1)
+//result = isGameOver(deck1, deck2)
+//console.log(result)
 
-deal(deck, deck1, deck2)
-console.log(deck, deck1, deck2)
+while (!isGameOver(deck1, deck2)) {
+  turn(deck1, deck2);
+}
+
+winner = whoIsWinner(deck1, deck2);
+
+console.log("Winner is player ", winner);
 
 //deck.moveOneCard(8)
 
@@ -178,18 +195,10 @@ console.log(deck, deck1, deck2)
 //foo.pop(1)
 //console.log(deck)
 
-
-
-
-console.log("66666666")
-
-
-
-
-
+console.log("66666666");
 
 //do not know how to shuffle the deck. Tried Fisher–Yates shuffle
-//and did smth wrong. 
+//and did smth wrong.
 
 //function shuffleDeck() {
 //  var shaffleDeck = []
@@ -203,43 +212,31 @@ console.log("66666666")
 //return shuffleDeck;
 //}
 
-
-
 //I wanted to split the deck using slice and it does not work either
 //deck1 = deck.cards.splice(26, 52);
 //deck2 = deck.cards.splice(0, 26);
 //console.log(deck1)
 //console.log(deck2)
 
-//now we should have 2 sets of cards 
-
-
+//now we should have 2 sets of cards
 
 //if shafling cards and splitting into two parts do not work,
 //it is impossible to check if comparing of cards works.
 //Anyway, the logic for comparing cards may be the following
 
-
 //create two empty arrays where to put cards after each round
 //let deckFirstPlayBegins = []
 //let deckSecondPlayBegins = []
 
-//create logic how to compare the cards. 
+//create logic how to compare the cards.
 //may use do-while, where "while" is either deckFirstPlayBegins or deckSecondPlayBegins
 //is less than 52 (total number of cards)
 // in "do" we should use if-else statements and compare value of each card
 //inside if-else we should use loops to try all the deck
 // for tie/war situation need additional arrey to keep cards and then
-// move card to the deck of won player 
+// move card to the deck of won player
 
 //do {
 
-
 //}
 //while (deckFirstPlayBegins = 53 || deckSecondPlayBegins = 53)
-
-
-
-
-
-
