@@ -121,30 +121,7 @@ function deal(d, d1, d2) {
   }
 }
 
-function turn(d1, d2) {
-  card1 = d1.cards.pop();
-  card2 = d2.cards.pop();
-  d1.cards.push(card1);
-  d1.cards.push(card2);
-}
-
-function isGameOver(d1, d2) {
-  if (d1.cards.length == 0 || d2.cards.length == 0) {
-    return true;
-  } else {
-    return false;
-  }
-}
-
-function whoIsWinner(d1, d2) {
-  if (d1.cards.length == 0) {
-    return 2;
-  }
-  if (d2.cards.length == 0) {
-    return 1;
-  }
-  return 0;
-}
+function turn(d1, d2) {}
 
 deck = new Deck();
 //moveOneCard2(deck, 0)
@@ -164,22 +141,6 @@ console.log("deck2 after empty:", deck2);
 
 deal(deck, deck1, deck2);
 console.log(deck, deck1, deck2);
-
-//turn(deck1, deck2)
-//console.log(deck1)
-//console.log(deck2)
-
-//emptyDeck(deck1)
-//result = isGameOver(deck1, deck2)
-//console.log(result)
-
-while (!isGameOver(deck1, deck2)) {
-  turn(deck1, deck2);
-}
-
-winner = whoIsWinner(deck1, deck2);
-
-console.log("Winner is player ", winner);
 
 //deck.moveOneCard(8)
 
