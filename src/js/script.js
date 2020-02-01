@@ -1,26 +1,5 @@
-//*
-// * Define a Card class with the following properties:
-//*
-//* - suit(hearts, spades, clubs, diamonds)
-// * - rank(Ace, 2, 3, 4, ..Jack, King, Queen)
-//* - score(1, 2, 3, 4, ... 11, 12, 13)
-//*
-//* Define a Deck class with the following properties and methods:
-//*
-//* - length(the number of cards - should start at 52)
-// * - cards(an array of cards in the deck)
-//* - draw: return a random card from the cards array
-//    *
-//* When you create an instance of your Deck class (i.e.in your constructor),
-//* fill in the cards array with 52 instances of your Card class.You can do
-//* this with a nested for loop - first loop through an array of all possible
-// * suits, then loop through an array of all possible ranks.Inside your inner
-//   * loop, create an instance of your Card class and push it into the Deck's cards
-//     * array.
-//*
-//* Instantiate an instance of your Deck and start drawing random cards!
-// * /
-//myDeck.cards = []
+// version 1.1: improved turn() function
+//              added methods to class Deck
 
 class Card {
   constructor(rank, suit, value) {
@@ -34,6 +13,9 @@ class Deck {
   constructor() {
     this.cards = [];
     this.tempCards = [];
+  }
+
+  newDeck() {
     let ranks = [
       "2",
       "3",
@@ -58,9 +40,32 @@ class Deck {
         let suit = suits[j];
         let value = i;
 
-        this.cards.push(new Card(rank, suit, value));
+        this.push(new Card(rank, suit, value));
       }
     }
+  }
+
+  //return the lenght of the the deck
+  length() {
+    return this.cards.length;
+  }
+
+  //add one card to the bottm of the deck
+  push(card) {
+    this.cards.push(card);
+  }
+
+  //add a deck to the bottom of this deck
+  pushDeck(deck) {
+    for (let i = 0; i < deck.length(); i++) {
+      card = deck.cards.shift();
+      this.push(card);
+    }
+  }
+
+  //remove one card from the top of this deck
+  unshift(card) {
+    return this.cards.unshift(card);
   }
 
   moveOneCard(index) {
@@ -83,6 +88,7 @@ function moveOneCard2(d, index) {
 }
 
 function dummyShuffle(d) {
+  console.log("dummyShuffle begin");
   //to be sure that tempCards is empty
   d.tempCards.splice(0, d.tempCards.length);
   len = d.cards.length;
@@ -91,19 +97,20 @@ function dummyShuffle(d) {
     //moveOneCard2(d, d.cards.length - 1)
   }
 
-  console.log(d.cards.length);
+  //console.log(d.cards.length);
   for (i = 0; i < len; i++) {
     d.cards.push(d.tempCards[i]);
   }
-  console.log(d.cards.length);
-  console.log(d.cards);
+  //console.log(d.cards.length);
+  //console.log(d.cards);
 
-  console.log(d.tempCards);
+  //console.log(d.tempCards);
 
   d.tempCards.splice(0, d.tempCards.length);
-  console.log("empty:", d.tempCards);
+  //console.log("empty:", d.tempCards);
 
-  console.log("****************************");
+  //console.log("****************************");
+  console.log("dummyShuffle end");
 }
 
 function emptyDeck(d) {
@@ -121,83 +128,128 @@ function deal(d, d1, d2) {
   }
 }
 
-function turn(d1, d2) {}
+//very dumb way to do a turn (for debug): player 1 always takes both cards
+function turn_debug1(d1, d2) {
+  card1 = d1.cards.shift();
+  card2 = d2.cards.shift();
+  d1.cards.push(card1);
+  d1.cards.push(card2);
+}
 
+//very dumb way to do a turn (for debug): player 1 always takes both cards
+function turn(d1, d2) {
+  pile = new Deck();
+
+  //turn_debug1(d1, d2);
+
+  console.log(
+    "player 1: " + d1.length() + " cards; player 2: " + d2.length() + " cards"
+  );
+
+  while (!isGameOver(deck1, deck2)) {
+    card1 = d1.cards.shift();
+    card2 = d2.cards.shift();
+    pile.unshift(card1);
+    pile.unshift(card2);
+
+    console.log("1: " + card1.rank + " of " + card1.suit);
+    console.log("2: " + card2.rank + " of " + card2.suit);
+
+    if (card1.value > card2.value) {
+      //player 1 takes 2 cards
+      d1.pushDeck(pile);
+      break;
+    } else if (card2.value > card1.value) {
+      //player 2 takes 2 cards
+
+      d2.pushDeck(pile);
+      break;
+    } else {
+      //cards are equal
+      //each player must have 4 more cards; if not the player who does not not have enough cards loses
+
+      //for now player 1 takes both
+      d1.pushDeck(pile);
+      break;
+    }
+  }
+}
+
+function isGameOver(d1, d2) {
+  if (d1.cards.length == 0 || d2.cards.length == 0) {
+    return true;
+  } else {
+    return false;
+  }
+}
+
+function whoIsWinner(d1, d2) {
+  if (d1.cards.length == 0) {
+    return 2;
+  }
+  if (d2.cards.length == 0) {
+    return 1;
+  }
+  return 0;
+}
+
+//create the deck to be dealt to the players
 deck = new Deck();
+deck.newDeck();
 //moveOneCard2(deck, 0)
+
+//shuffle the deck
 dummyShuffle(deck);
 
 console.log("***************************");
 
+//create decks for each player
 deck1 = new Deck();
 deck2 = new Deck();
 console.log("deck1:", deck1);
 console.log("deck2:", deck2);
 
-emptyDeck(deck1);
-emptyDeck(deck2);
-console.log("deck1 after empty:", deck1);
-console.log("deck2 after empty:", deck2);
+//emptyDeck(deck1);
+//emptyDeck(deck2);
+//console.log("deck1 after empty:", deck1);
+//console.log("deck2 after empty:", deck2);
 
+//deal the deck into deck1 and deck2
 deal(deck, deck1, deck2);
 console.log(deck, deck1, deck2);
 
-//deck.moveOneCard(8)
-
-//console.log("deck:")
-
-//console.log(deck)
-//console.log("deck.cards:")
-//console.log(deck.cards)
-
-//console.log(deck.cards[51])
-//foo = deck.cards
-//console.log(foo)
-//foo.pop(1)
-//console.log(deck)
-
-console.log("66666666");
-
-//do not know how to shuffle the deck. Tried Fisher–Yates shuffle
-//and did smth wrong.
-
-//function shuffleDeck() {
-//  var shaffleDeck = []
-//for (let i = 0; i < 52; i++) {
-//  var rndNo = Math.floor(Math.random() * i);
-//var card = this.Card[i];
-//this.Card[i] = this.Card.splice(rndNo, 1)[0];
-//shuffleDeck.push(deck)
-
-//  }
-//return shuffleDeck;
-//}
-
-//I wanted to split the deck using slice and it does not work either
-//deck1 = deck.cards.splice(26, 52);
-//deck2 = deck.cards.splice(0, 26);
+//turn(deck1, deck2)
 //console.log(deck1)
 //console.log(deck2)
 
-//now we should have 2 sets of cards
+//emptyDeck(deck1)
+//result = isGameOver(deck1, deck2)
+//console.log(result)
 
-//if shafling cards and splitting into two parts do not work,
-//it is impossible to check if comparing of cards works.
-//Anyway, the logic for comparing cards may be the following
+turn_num = 0;
+while (!isGameOver(deck1, deck2)) {
+  turn_num++;
+  console.log("turn :", turn_num);
 
-//create two empty arrays where to put cards after each round
-//let deckFirstPlayBegins = []
-//let deckSecondPlayBegins = []
+  turn(deck1, deck2);
+}
 
-//create logic how to compare the cards.
-//may use do-while, where "while" is either deckFirstPlayBegins or deckSecondPlayBegins
-//is less than 52 (total number of cards)
-// in "do" we should use if-else statements and compare value of each card
-//inside if-else we should use loops to try all the deck
-// for tie/war situation need additional arrey to keep cards and then
-// move card to the deck of won player
+winner = whoIsWinner(deck1, deck2);
 
-//do {
+console.log("Winner is player ", winner);
 
-//}
-//while (deckFirstPlayBegins = 53 || deckSecondPlayBegins = 53)
+deck.moveOneCard(8);
+
+console.log("deck:");
+
+console.log(deck);
+console.log("deck.cards:");
+console.log(deck.cards);
+
+console.log(deck.cards[51]);
+foo = deck.cards;
+console.log(foo);
+foo.pop(1);
+console.log(deck);
+
+console.log("66666666");
