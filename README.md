@@ -1,3 +1,25 @@
+# Game of War
+
+### Used Software
+
+  - HTML (a little bit)
+  - JavaScript
+
+ ### Project Description
+
+This is a game of war: 
+
+each player reveals the top card in their stack. The player who played the card with the higher rank (Aces high) takes both cards and puts them at the bottom of their stack in an arbitrary order.
+
+If there is a tie, then it's War! In the card game each player adds places the top three cards of their stack face down, and then each player reveals the top card again. Whoever wins out of the second reveal takes all of the cards, and if there is another tie the process repeats until there is a winner.
+
+### Getting Started
+
+Launch the game via HTML and play in the console. 
+
+
+
+
 [![General Assembly Logo](https://camo.githubusercontent.com/1a91b05b8f4d44b5bbfb83abac2b0996d8e26c92/687474703a2f2f692e696d6775722e636f6d2f6b6538555354712e706e67)](https://generalassemb.ly/education/web-development-immersive)
 
 # Game of War
