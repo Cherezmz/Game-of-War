@@ -1,3 +1,5 @@
+let max_rounds = 1000;
+
 class Card {
   constructor(rank, suit, value) {
     this.rank = rank;
@@ -93,7 +95,6 @@ function shuffleDeck(d) {
   tempDeck = new Deck();
   while (d.length() > 0) {
     let r = getRandomInt(d.length());
-    //let cards = d.cards.splice(0,1);
     let cards = d.cards.splice(r, 1);
     let c = cards[0];
 
@@ -103,10 +104,6 @@ function shuffleDeck(d) {
   d.pushDeck(tempDeck);
 }
 
-// function emptyDeck(d) {
-//   d.cards.splice(0, d.cards.length);
-//   d.tempCards.splice(0, d.tempCards.length);
-// }
 //deal deck d into decks d1 and d2
 //assumes even number of cards
 function dealDeck(d, d1, d2) {
@@ -128,7 +125,7 @@ function turn_debug1(d1, d2) {
 }
 
 //play a turn(round)
-function turn(d1, d2) {
+function round(d1, d2) {
   pile = new Deck();
 
   while (!isGameOver(d1, d2)) {
@@ -138,18 +135,19 @@ function turn(d1, d2) {
     pile.unshiftCard(card2);
 
     console.log(
-      "player 1 plays: " + card1.rank + " of " + card1.suit + "s (face up)"
+      " player 1 plays: " + card1.rank + " of " + card1.suit + "s (face up)"
     );
     console.log(
-      "player 2 plays: " + card2.rank + " of " + card2.suit + "s (face up)"
+      " player 2 plays: " + card2.rank + " of " + card2.suit + "s (face up)"
     );
 
     if (card1.value > card2.value) {
       let num_cards = pile.length();
+      shuffleDeck(pile);
       d1.pushDeck(pile);
-      console.log("player 1 wins this round; takes ", num_cards, " cards");
+      console.log(" player 1 wins this round; takes ", num_cards, " cards");
       console.log(
-        "player 1 has " +
+        " player 1 has " +
           d1.length() +
           " cards; player 2 has " +
           d2.length() +
@@ -158,23 +156,23 @@ function turn(d1, d2) {
       break;
     } else if (card2.value > card1.value) {
       let num_cards = pile.length();
+      shuffleDeck(pile);
       d2.pushDeck(pile);
-      console.log("player 2 wins this round; takes ", num_cards, " cards");
+      console.log(" player 2 wins this round; takes ", num_cards, " cards");
       console.log(
-        "player 1 has " +
+        " player 1 has " +
           d1.length() +
           " cards; player 2 has " +
           d2.length() +
           " cards"
       );
-
       break;
     } else {
       //cards are equal
       //each player must have at least 4 more cards to continue the game; if not the player who does not not have enough cards loses
       //if no player has 4 more cards and the players have the same number of cards remaining - it is a tie
 
-      console.log("IT'S A WAR!");
+      console.log(" IT'S A WAR!");
       war_cards = 0;
       while (!isGameOver(d1, d2) && war_cards < 3) {
         card1 = d1.shiftCard();
@@ -182,14 +180,14 @@ function turn(d1, d2) {
         pile.unshiftCard(card1);
         pile.unshiftCard(card2);
         console.log(
-          "player 1 plays: " +
+          " player 1 plays: " +
             card1.rank +
             " of " +
             card1.suit +
             "s (face down)"
         );
         console.log(
-          "player 2 plays: " +
+          " player 2 plays: " +
             card2.rank +
             " of " +
             card2.suit +
@@ -263,22 +261,27 @@ while (!isGameOver(deck1, deck2)) {
       " cards"
   );
   //need to limit the number of rounds
-  turn(deck1, deck2);
-  if (round_num > 1000) {
+  //put variable in the beginning to change it
+  round(deck1, deck2);
+  if (round_num > max_rounds) {
     break;
   }
 }
 
 winner = whoIsWinner(deck1, deck2);
 if (winner == 0) {
-  //problem
-  console.log("ERROR: the game is over but we have no winner");
+  if (round_num > max_rounds) {
+    console.log("GAME IS OVER: exceeded max number of rounds");
+  } else {
+    //problem
+    console.log("ERROR: the game is over but we have no winner");
+  }
 } else if (winner == 1) {
-  console.log("Winner is player ", winner);
+  console.log("Finally GAME is OVER: Winner is player ", winner);
 } else if (winner == 2) {
-  console.log("Winner is player ", winner);
+  console.log("Finally GAME is OVER: Winner is player ", winner);
 } else if (winner == 3) {
-  console.log("it's a tie!");
+  console.log(" Finally GAME is OVER: it's a tie!");
 } else {
   console.log("ERROR: unexpected value for winner: ", winner);
 }
