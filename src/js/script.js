@@ -9,9 +9,8 @@ class Card {
 class Deck {
   constructor() {
     this.cards = [];
-    this.tempCards = [];
   }
-
+  //fill the deck with 52 cards
   newDeck() {
     let ranks = [
       "2",
@@ -47,21 +46,15 @@ class Deck {
     return this.cards.length;
   }
 
-  //add one card to the bottm of the deck
+  //add one card to the bottom of the deck
   pushCard(card) {
     this.cards.push(card);
   }
 
   //add a deck to the bottom of this deck
-  pushDeck(d) {
-    // console.log("pushDeck: pushing ", d.length(), " cards");
-    // d.dump();
-    // for (let i = 0; i < deck.length(); i++) {
-    //   card = deck.cards.shift();
-    //   this.push(card);
-    while (d.length() > 0) {
-      //console.log("pushDeck length: ", d.length());
-      let c = d.shiftCard();
+  pushDeck(deck) {
+    while (deck.length() > 0) {
+      let c = deck.shiftCard();
       this.pushCard(c);
     }
   }
@@ -70,14 +63,14 @@ class Deck {
   }
 
   //remove one card from the top of this deck
-  unshift(card) {
+  unshiftCard(card) {
     return this.cards.unshift(card);
   }
-
+  //dump deck to console
   dump() {
     for (let i = 0; i < this.cards.length; i++) {
       console.log(
-        "[",
+        " [",
         i,
         "]: ",
         this.cards[i].rank,
@@ -92,81 +85,30 @@ class Deck {
   }
 }
 
-function moveOneCard2(d, index) {
-  //console.log(index)
-  //console.log(d)
-  card = d.cards[index];
-  //console.log(card)
-  d.tempCards.push(card);
-  //console.log(d)
-  //console.log(d.tempCards)
-  d.cards.splice(index, 1);
-  let l = d.cards.length;
-  //console.log(l)
-  //console.log(d.cards)
-}
-
-function dummyShuffle(d) {
-  console.log("dummyShuffle begin");
-  //to be sure that tempCards is empty
-  d.tempCards.splice(0, d.tempCards.length);
-  len = d.cards.length;
-  for (i = 0; i < 52; i++) {
-    moveOneCard2(d, 0);
-    //moveOneCard2(d, d.cards.length - 1)
-  }
-
-  //console.log(d.cards.length);
-  for (i = 0; i < len; i++) {
-    d.cards.push(d.tempCards[i]);
-  }
-  //console.log(d.cards.length);
-  //console.log(d.cards);
-
-  //console.log(d.tempCards);
-
-  d.tempCards.splice(0, d.tempCards.length);
-  //console.log("empty:", d.tempCards);
-
-  //console.log("****************************");
-  console.log("dummyShuffle end");
-}
-
 function getRandomInt(max) {
   return Math.floor(Math.random() * Math.floor(max));
 }
-
+//shuffle deck randomly
 function shuffleDeck(d) {
-  //console.log("shuffleDeck: shuffling " + d.length() + " cards");
-  //console.log("shuffleDeck d: ", d);
-
   tempDeck = new Deck();
-
   while (d.length() > 0) {
-    //console.log("shuffleDeck: " + d.length());
-
     let r = getRandomInt(d.length());
     //let cards = d.cards.splice(0,1);
     let cards = d.cards.splice(r, 1);
     let c = cards[0];
-    //console.log(x.rank, x.suit, x.value);
-    //console.log(cards[0].rank);
 
     tempDeck.pushCard(c);
   }
-  //console.log("shuffleDeck: tempDeck: ", tempDeck);
-  //console.log("shuffleDeck: dump tempDeck:");
-  //tempDeck.dump();
-
+  //add tempDeck back to deck d
   d.pushDeck(tempDeck);
-  //console.log("shuffleDeck end: " + d.length() + " cards");
 }
 
-function emptyDeck(d) {
-  d.cards.splice(0, d.cards.length);
-  d.tempCards.splice(0, d.tempCards.length);
-}
-
+// function emptyDeck(d) {
+//   d.cards.splice(0, d.cards.length);
+//   d.tempCards.splice(0, d.tempCards.length);
+// }
+//deal deck d into decks d1 and d2
+//assumes even number of cards
 function dealDeck(d, d1, d2) {
   while (d.length() > 0) {
     let card = d.shiftCard();
@@ -174,12 +116,6 @@ function dealDeck(d, d1, d2) {
 
     card = d.shiftCard();
     d2.pushCard(card);
-
-    // (i = 0; i < len / 2; i++) {
-    //   card = d.cards.pop();
-    //   d1.cards.push(card);
-    //   card = d.cards.pop();
-    //   d2.cards.push(card);
   }
 }
 
@@ -191,19 +127,15 @@ function turn_debug1(d1, d2) {
   d1.cards.push(card2);
 }
 
-//very dumb way to do a turn (for debug): player 1 always takes both cards
+//play a turn(round)
 function turn(d1, d2) {
   pile = new Deck();
-
-  //turn_debug1(d1, d2);
-
-  //console.log("player 1: " + d1.length() + " cards; player 2: " + d2.length() + " cards");
 
   while (!isGameOver(d1, d2)) {
     card1 = d1.shiftCard();
     card2 = d2.shiftCard();
-    pile.unshift(card1);
-    pile.unshift(card2);
+    pile.unshiftCard(card1);
+    pile.unshiftCard(card2);
 
     console.log(
       "player 1 plays: " + card1.rank + " of " + card1.suit + "s (face up)"
@@ -211,12 +143,7 @@ function turn(d1, d2) {
     console.log(
       "player 2 plays: " + card2.rank + " of " + card2.suit + "s (face up)"
     );
-    // console.log(
-    //   "player 1 plays: " + card1.rank + " of " + card1.suit + "s (face up)"
-    // );
-    // console.log(
-    //   "player 2 plays: " + card2.rank + " of " + card2.suit + "s (face up)"
-    // );
+
     if (card1.value > card2.value) {
       let num_cards = pile.length();
       d1.pushDeck(pile);
@@ -228,14 +155,6 @@ function turn(d1, d2) {
           d2.length() +
           " cards"
       );
-      // console.log("player 1 wins this round; takes ", pile.length(), " cards");
-      // console.log(
-      //   "player 1 has " +
-      //     d1.length() +
-      //     " cards; player 2 has " +
-      //     d2.length() +
-      //     " cards"
-      // );
       break;
     } else if (card2.value > card1.value) {
       let num_cards = pile.length();
@@ -248,27 +167,20 @@ function turn(d1, d2) {
           d2.length() +
           " cards"
       );
-      // console.log("player 2 wins this round; takes ", pile.length(), " cards");
-      // console.log(
-      //   "player 1 has " +
-      //     d1.length() +
-      //     " cards; player 2 has " +
-      //     d2.length() +
-      //     " cards"
-      // );
+
       break;
     } else {
       //cards are equal
       //each player must have at least 4 more cards to continue the game; if not the player who does not not have enough cards loses
       //if no player has 4 more cards and the players have the same number of cards remaining - it is a tie
-      //for now player 1 takes both
+
       console.log("IT'S A WAR!");
       war_cards = 0;
       while (!isGameOver(d1, d2) && war_cards < 3) {
         card1 = d1.shiftCard();
         card2 = d2.shiftCard();
-        pile.unshift(card1);
-        pile.unshift(card2);
+        pile.unshiftCard(card1);
+        pile.unshiftCard(card2);
         console.log(
           "player 1 plays: " +
             card1.rank +
@@ -305,7 +217,7 @@ function whoIsWinner(d1, d2) {
   if (d1.length() == 0 && d2.length() == 0) {
     return 3;
   }
-  if (d2.length == 0) {
+  if (d2.length() == 0) {
     return 1;
   }
   if (d1.length() == 0) {
@@ -317,36 +229,26 @@ function whoIsWinner(d1, d2) {
 //create the deck to be dealt to the players
 deck = new Deck();
 deck.newDeck();
-console.log("deck: ", deck.cards);
+// console.log("deck dump after newDeck()");
+// deck.dump();
 //shuffle the deck
 shuffleDeck(deck);
-console.log("after shuffle deck has ", deck.length(), " cards");
-deck.dump();
+//console.log("deck dump after shuffleDeck()");
+//deck.dump();
 
 console.log("***************************");
 
 //create decks for each player
 deck1 = new Deck();
 deck2 = new Deck();
-// console.log("deck1:", deck1);
-// console.log("deck2:", deck2);
-
-//emptyDeck(deck1);
-//emptyDeck(deck2);
-//console.log("deck1 after empty:", deck1);
-//console.log("deck2 after empty:", deck2);
 
 //deal the deck into deck1 and deck2
 dealDeck(deck, deck1, deck2);
-// console.log(deck, deck1, deck2);
+// console.log(deck1);
+// deck1.dump();
 
-//turn(deck1, deck2)
-//console.log(deck1)
-//console.log(deck2)
-
-//emptyDeck(deck1)
-//result = isGameOver(deck1, deck2)
-//console.log(result)
+// console.log(deck2);
+// deck2.dump();
 
 round_num = 0;
 while (!isGameOver(deck1, deck2)) {
@@ -380,58 +282,3 @@ if (winner == 0) {
 } else {
   console.log("ERROR: unexpected value for winner: ", winner);
 }
-
-//deck.moveOneCard(8)
-
-//console.log("deck:")
-
-//console.log(deck)
-//console.log("deck.cards:")
-//console.log(deck.cards)
-
-//console.log(deck.cards[51])
-//foo = deck.cards
-//console.log(foo)
-//foo.pop(1)
-//console.log(deck)
-
-//console.log("66666666");
-
-//do not know how to shuffle the deck. Tried Fisher–Yates shuffle
-//and did smth wrong.
-
-//function shuffleDeck() {
-//  var shaffleDeck = []
-//for (let i = 0; i < 52; i++) {
-//  var rndNo = Math.floor(Math.random() * i);
-//var card = this.Card[i];
-//this.Card[i] = this.Card.splice(rndNo, 1)[0];
-//shuffleDeck.push(deck)
-
-//  }
-//return shuffleDeck;
-//}
-
-//I wanted to split the deck using slice and it does not work either
-//deck1 = deck.cards.splice(26, 52);
-//deck2 = deck.cards.splice(0, 26);
-//console.log(deck1)
-//console.log(deck2)
-
-// console.log("Winner is player ", winner);
-
-// deck.moveOneCard(8);
-
-// console.log("deck:");
-
-// console.log(deck);
-// console.log("deck.cards:");
-// console.log(deck.cards);
-
-// console.log(deck.cards[51]);
-// foo = deck.cards;
-// console.log(foo);
-// foo.pop(1);
-// console.log(deck);
-
-// console.log("66666666");
